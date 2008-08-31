@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<configdata>
+    <production>
+        <siteurl>http://uploadbin.net/</siteurl>
+        <sitename>UploadBin</sitename>
+        <uploaddir>/home/olle/uploadbin_uploads/</uploaddir>
+        <hashtype>uuid</hashtype>
+		<cookielifetime>2592000</cookielifetime>
+        <akismetkey>14c14821006c</akismetkey>
+        <denyextensions></denyextensions>
+        <maxexecutiontime>3600</maxexecutiontime>
+        <maxuploadsize>256M</maxuploadsize>
+        <maxdescinlist>50</maxdescinlist>
+        <database>
+            <type>pdo_mysql</type>
+            <host>localhost</host>
+            <username>uploadbin</username>
+            <password>linasAus9</password>
+            <name>uploadbin</name>
+            <prefix></prefix>
+            <table>
+            	<files>files</files>
+            	<formkeys>formkeys</formkeys>
+            </table>
+        </database>
+    </production>
+    <staging extends="production">
+        <siteurl>http://localhost/easyfup/</siteurl>
+        <uploaddir>./uploads/</uploaddir>
+        <database>
+            <host>localhost</host>
+            <username>root</username>
+            <password>root</password>
+            <name>easyfup</name>
+        </database>
+    </staging>
+</configdata>

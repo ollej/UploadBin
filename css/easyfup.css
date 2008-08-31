@@ -1,0 +1,127 @@
+body
+{
+	font-family: Optima, Geneva, Lucida, Verdana, Arial;
+	font-size: 0.8em;
+	text-align: center;
+}
+
+#contentDiv
+{
+	padding-top: 10em;
+	text-align: center;
+}
+
+#errorDiv
+{
+	border: .3em solid red;
+	padding: .5em;
+	background-image: url('../images/error.png');
+	background-repeat: no-repeat;
+	background-position: .5em .5em;
+}
+
+#infoDiv
+{
+	border: .3em solid green;
+	padding: .5em;
+	background-image: url('../images/information.png');
+	background-repeat: no-repeat;
+	background-position: .5em .5em;
+}
+
+#warningDiv
+{
+	border: .3em solid yellow;
+}
+
+#footerDiv
+{
+	font-size: 0.8em;
+}
+
+.centerDiv
+{
+	text-align: center;
+}
+
+#advancedDiv
+{
+	background-color: #aaaaaa;
+	margin: 0 auto;
+	text-align: left;
+	width: 200px;
+	border: 1px dotted black;
+}
+
+#textDiv
+{
+	margin: 0 auto;
+	max-width: 500px;
+	text-align: left;
+	width: 75%;
+}
+
+#menuDiv
+{
+	font-weight: bold;
+	padding-bottom: 1em;
+}
+
+h2,h3
+{
+	margin: 0;
+}
+
+h1
+{
+	font-size: 1.2em;
+}
+
+h2
+{
+	font-size: 1.0em;
+	padding-top: 0.6em;
+}
+
+h3
+{
+	font-size: 0.8em;
+}
+
+#logo
+{
+	border: 0;
+}
+
+.itemlist
+{
+	text-align: left;
+	border-spacing: 0;
+}
+
+.itemlist td
+{
+	padding: 0.2em;
+}
+
+.itemlist .numbers
+{
+	text-align: right;
+}
+
+.itemlist .row_even
+{
+	background-color: #ffffff;
+	background-image: none;
+}
+
+.itemlist .row_odd
+{
+	background-color: #cccccc;
+	background-image: none;
+}
+
+#loadingimage
+{
+	padding-left: 0.5em;
+}

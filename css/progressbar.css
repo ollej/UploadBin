@@ -1,0 +1,20 @@
+.progressBar {
+	position: relative;
+	padding-top: 10px;
+	width: 300px;
+	height: 40px;
+	left: 50%;
+	margin-left: -150px;
+	font-size: 14px;
+}
+.progressBar .background {
+	border: solid 1px black;
+	width: 270px;
+	height: 20px;
+}
+.progressBar .bar {
+	position: relative;
+	background-color: blue;
+	width: 0px;
+	height: 20px;
+}

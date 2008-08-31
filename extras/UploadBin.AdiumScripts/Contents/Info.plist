@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleGetInfoString</key>
+	<string>UploadBin</string>
+	<key>CFBundleIdentifier</key>
+	<string>net.uploadbin.scripts</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>1.0</string>
+	<key>CFBundleName</key>
+	<string>UploadBin</string>
+	<key>CFBundlePackageType</key>
+	<string>AdIM</string>
+	<key>Scripts</key>
+	<array>
+		<dict>
+			<key>File</key>
+			<string>uploadbin</string>
+			<key>Keyword</key>
+			<string>/ul</string>
+			<key>PrefixOnly</key>
+			<true/>
+			<key>Title</key>
+			<string>Upload file to UploadBin and send URL.</string>
+		</dict>
+	</array>
+	<key>Set</key>
+	<string>UploadBin</string>
+</dict>
+</plist>
