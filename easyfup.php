@@ -760,11 +760,11 @@ class EfupFile
 		$auth = Zend_Auth::getInstance();
 		$result = $auth->authenticate($this->_auth);
 
-		// Save the uesr identity.
-		$this->SetAuthUser();
-
 		if ($result->isValid())
 		{
+		  // Save the uesr identity.
+		  $this->SetAuthUser();
+
 			return true;
 		} else {
 			return false;
@@ -840,6 +840,8 @@ class EfupFile
 	 */
 	function CheckFormKey($hashed_key)
 	{
+	  if (!$hashed_key) return false;
+
 		$select = $this->_db->select()
 			->from(array('k' => $this->_tbl_keys))
 			->where('formkey = ?', $hashed_key)
@@ -1018,7 +1020,9 @@ class EfupAction
 	{
 		if ($this->username && $this->password)
 		{
-			$this->efup->Authenticate($this->username, $this->password);
+		  if (!$this->efup->Authenticate($this->username, $this->password)) {
+		    throw new Exception ("Incorrect credentials!");
+		  }
 		} else {
 			$this->efup->SetAuthUser();
 		}
@@ -1053,8 +1057,10 @@ class EfupAction
 	function Upload()
 	{
 		$urls = $this->efup->Upload($this->hashed_name, $this->hashed_key, $this->file_password, $this->firstdownloaderase, $this->description);
-		$message = $this->ShowPage('upload', $urls, false, false, true);
-		$this->ShowPage('index', array('info' => $message), true, true );
+		if ($this->client != 'rpc') {
+		  $message = $this->ShowPage('upload', $urls, false, false, true);
+		  $this->ShowPage('index', array('info' => $message), true, true );
+		}
 	}
 
 	/**
@@ -1191,14 +1197,14 @@ class Message
 // Handle the request.
 try {
 	$efupaction = new EfupAction($config->uploaddir);
-	$efupaction->Authenticate();
 	$efupaction->ValidateInput();
+	$efupaction->Authenticate();
 	$efupaction->Handle();
 
 } catch (Exception $error) {
 	// include index page
 	// TODO should be dynamic caller/referer
-	 $efupaction->showPage('index', array('error' => $error->getMessage()), true, true);
+  $efupaction->showPage('index', array('error' => $error->getMessage() . "\n" . $error->getTrace()), true, true);
 }
 
 
