@@ -202,6 +202,9 @@ window.uploadComplete = function(id,message) {
 	document.getElementById(id).percent = 100;
 	document.getElementById(id).message = message;
 	document.getElementById(id).update();
+
+    updateKey();
+    $('content').innerHTML = $('target_files').contentWindow.document.body.innerHTML;
 }
 
 HTML_AJAX.onError = function(err) {

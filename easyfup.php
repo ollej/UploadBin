@@ -935,6 +935,7 @@ class EfupAction
 		$this->efup = new EfupFile($dir);
 		
 		$this->fileWidget = new UploadProgressMeter();
+		#$this->fileWidget->enableDebug();
 	}
 
 	/**
@@ -1059,7 +1060,8 @@ class EfupAction
 		$urls = $this->efup->Upload($this->hashed_name, $this->hashed_key, $this->file_password, $this->firstdownloaderase, $this->description);
 		if ($this->client != 'rpc') {
 		  $message = $this->ShowPage('upload', $urls, false, false, true);
-		  $this->ShowPage('index', array('info' => $message), true, true );
+		  #$this->ShowPage('index', array('info' => $message), true, true );
+		  echo $message;
 		}
 	}
 

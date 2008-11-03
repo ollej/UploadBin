@@ -1,15 +1,29 @@
+// Returns the basename part of path
 function Basename(path)
 {
     return path.replace( /.*(\/|\\)/, "" );
 }
 
+// Calculates Payload hashes using sha256
 function Payload()
 {
 	//$('loadingimage').toggle();
-	var f = document.uploadform;
-	f.hashed_name.value = hex_sha256(Basename(f.files.value));
-	f.hashed_key.value = hex_sha256(f.key.value);
+    var f = $('uploadform');
+    f.hashed_name.value = hex_sha256(Basename(f.files.value));
+    f.hashed_key.value = hex_sha256(f.key.value);
 	return true;
+}
+
+// Updates the form with a new generated upload key.
+function updateKey()
+{
+    new Ajax.Request('?action=getkey', {
+	method:'get',
+	onSuccess: function(transport) {
+	    var response = transport.responseText || '';
+	    $('uploadform').key.value = response;
+	}
+    });
 }
 
 // Loads content into the content div

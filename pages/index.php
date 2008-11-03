@@ -28,7 +28,7 @@
 				<?php echo $this->fileWidget->render(); ?>
 				
 				<br />
-				<a href="javascript:Effect.toggle('advancedDiv', 'blind');">Extra Options</A>
+				<a href="javascript:Effect.toggle('advancedDiv', 'blind');">Extra Options</a>
 				<div class="centerDiv">
 					<div id="advancedDiv">
 					<h2>File description</h2>
