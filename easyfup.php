@@ -1059,9 +1059,8 @@ class EfupAction
 	{
 		$urls = $this->efup->Upload($this->hashed_name, $this->hashed_key, $this->file_password, $this->firstdownloaderase, $this->description);
 		if ($this->client != 'rpc') {
-		  $message = $this->ShowPage('upload', $urls, false, false, true);
+		  $this->ShowPage('upload', $urls, false, false, false);
 		  #$this->ShowPage('index', array('info' => $message), true, true );
-		  echo $message;
 		}
 	}
 
@@ -1206,7 +1205,7 @@ try {
 } catch (Exception $error) {
 	// include index page
 	// TODO should be dynamic caller/referer
-  $efupaction->showPage('index', array('error' => $error->getMessage() . "\n" . $error->getTrace()), true, true);
+  $efupaction->showPage('index', array('error' => $error->getMessage()), true, true);
 }
 
 
