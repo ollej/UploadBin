@@ -45,7 +45,7 @@ require_once './includes/UploadProgressMeter.class.php';
  * @global object $config
  * @name $config
  */
-$config = new Zend_Config_Xml('../data/config.xml', 'production');
+$config = new Zend_Config_Xml('../data/config.xml', 'development');
 
 // End of global variables.
 // -----------------------------------------------------------------------------
@@ -241,7 +241,7 @@ class EfupFile
 			$this->files[$filename] = $file;
 
 			// Should print a nice table of uploaded files instead.
-			$downloadfilename = $filename . '/' . $file->getProp('real');
+			$downloadfilename = $filename . '/' . urlencode($file->getProp('real'));
 			if ($this->client == "rpc")
 			{
 				echo $config->siteurl . $downloadfilename;
@@ -298,11 +298,13 @@ class EfupFile
 		// Send the file.
 		$dl = new HTTP_Download();
 		$dl->setFile($this->dir . $hash);
-		if ($downloadfilename != '') {
-			$dl->setContentDisposition(HTTP_DOWNLOAD_ATTACHMENT, $downloadfilename);
+		$filename = ($downloadfilename != '') ? $downloadfilename : $file->filename;
+		if (dirname($file->mime_type) == 'image') {
+			$disposition = HTTP_DOWNLOAD_INLINE;
 		} else {
-			$dl->setContentDisposition(HTTP_DOWNLOAD_ATTACHMENT, $file->filename);
+			$disposition = HTTP_DOWNLOAD_ATTACHMENT;
 		}
+		$dl->setContentDisposition($disposition, $filename);
 		$dl->setContentType($file->mime_type);
 		$error = $dl->send();
 
@@ -1058,8 +1060,9 @@ class EfupAction
 			case "getkey": $this->GetKey(); break;
 			case "logout": $this->Logout(); break;
 			case "login": $this->Login(); break;
-			case "contact": $this->ShowPage('contact');; break;
-			case "faq": $this->ShowPage('faq');; break;
+			case "contact": $this->ShowPage('contact'); break;
+			case "faq": $this->ShowPage('faq'); break;
+			case "blog": $this->showPage('blog'); break;
 			default:
 				$this->ShowPage('index', array(), true, true);
 		}
@@ -1072,8 +1075,9 @@ class EfupAction
 	{
 		$urls = $this->efup->Upload($this->hashed_name, $this->hashed_key, $this->file_password, $this->firstdownloaderase, $this->description);
 		if ($this->client != 'rpc') {
-		  $this->ShowPage('upload', $urls, false, false, false);
+		  $message = $this->ShowPage('upload', $urls, false, false, true);
 		  #$this->ShowPage('index', array('info' => $message), true, true );
+		  echo $message;
 		}
 	}
 
@@ -1218,7 +1222,7 @@ try {
 } catch (Exception $error) {
 	// include index page
 	// TODO should be dynamic caller/referer
-  $efupaction->showPage('index', array('error' => $error->getMessage()), true, true);
+  $efupaction->showPage('index', array('error' => $error->getMessage() . "\n" . $error->getTrace()), true, true);
 }
 
 
