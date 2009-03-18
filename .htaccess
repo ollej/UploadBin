@@ -1,7 +1,7 @@
 RewriteEngine On
 #RewriteRule #(.*)$ easyfup.php?action=$1 [R,L]
 RewriteRule ^$ easyfup.php [L]
-RewriteRule ^([a-z0-9]{32}) easyfup.php?action=download&name=$1 [L]
+RewriteRule ^([a-z0-9]{32})(/(.*))? easyfup.php?action=download&name=$1&downloadfilename=$3 [L]
 RewriteRule ^config.xml - [F,L]
 RewriteRule ^list/?$ easyfup.php?action=list [L]
 RewriteRule ^index/?$ easyfup.php [L]
@@ -14,3 +14,4 @@ RewriteRule ^status/([a-z0-9]{32}) easyfup.php?action=status&name=$1 [L]
 
 # We don't want no friggin magic quotes!
 php_flag magic_quotes_gpc off
+

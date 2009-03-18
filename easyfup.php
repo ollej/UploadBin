@@ -45,7 +45,7 @@ require_once './includes/UploadProgressMeter.class.php';
  * @global object $config
  * @name $config
  */
-$config = new Zend_Config_Xml('./config.xml', 'staging');
+$config = new Zend_Config_Xml('../data/config.xml', 'production');
 
 // End of global variables.
 // -----------------------------------------------------------------------------
@@ -241,12 +241,13 @@ class EfupFile
 			$this->files[$filename] = $file;
 
 			// Should print a nice table of uploaded files instead.
+			$downloadfilename = $filename . '/' . $file->getProp('real');
 			if ($this->client == "rpc")
 			{
-				echo $config->siteurl . $filename;
+				echo $config->siteurl . $downloadfilename;
 			} else {
 				return array(
-					'downloadurl' => $config->siteurl . $filename,
+					'downloadurl' => $config->siteurl . $downloadfilename,
 					'deleteurl' => $config->siteurl . $deletehash
 				);
 				// $this->showPage( 'index', array( 'info' => $config->siteurl . $filename));
@@ -270,7 +271,7 @@ class EfupFile
 	* @uses HTTP/Download.php
 	* @global object Configuration options.
 	*/
-	function Download($hash, $bool, $password)
+	function Download($hash, $bool, $password, $downloadfilename = NULL)
 	{
 		global $config;
 
@@ -297,7 +298,11 @@ class EfupFile
 		// Send the file.
 		$dl = new HTTP_Download();
 		$dl->setFile($this->dir . $hash);
-		$dl->setContentDisposition(HTTP_DOWNLOAD_ATTACHMENT, $file->filename);
+		if ($downloadfilename != '') {
+			$dl->setContentDisposition(HTTP_DOWNLOAD_ATTACHMENT, $downloadfilename);
+		} else {
+			$dl->setContentDisposition(HTTP_DOWNLOAD_ATTACHMENT, $file->filename);
+		}
 		$dl->setContentType($file->mime_type);
 		$error = $dl->send();
 
@@ -924,6 +929,11 @@ class EfupAction
 	 * @var object
 	 */
 	private $fileWidget = null;
+	/**
+	 * Download filename used to set filename on download.
+	 * @var string
+	 */
+	private $downloadfilename = '';
 
 	/**
 	 * Constructor which validates the action request variable.
@@ -962,6 +972,7 @@ class EfupAction
 				'client' => 'Alpha',
 				'file_password' => 'Alnum',
 				'firstdownloaderase' => 'Digits',
+				'downloadfilename' => 'BaseName',
 			);
 			$validators = array(
 				'action' => 'Alpha',
@@ -974,6 +985,7 @@ class EfupAction
 				'file_password' => array('Alnum', 'allowEmpty' => true),
 				'firstdownloaderase' => array('Digits', new Zend_Validate_Between(0,1), 'default' => 0),
 				'description' => array('allowEmpty' => true, 'default' => ''),
+				'downloadfilename' => array('allowEmpty' => true, 'default' => ''),
 			);
 			$reqs = new Zend_Filter_Input($filters, $validators, $_REQUEST);
 			if ($reqs->isValid())
@@ -988,6 +1000,7 @@ class EfupAction
 				$this->efup->client = strtolower($reqs->client);
 				$this->firstdownloaderase = $reqs->firstdownloaderase;
 				$this->description = $reqs->description;
+				$this->downloadfilename = $reqs->downloadfilename;
 				if( $reqs->file_password != '' )
 				{
 					$this->file_password = sha1($reqs->file_password);
@@ -1069,7 +1082,7 @@ class EfupAction
 	 */
 	function Download()
 	{
-		$message = $this->efup->Download( $this->fileName, true, $this->file_password );
+		$message = $this->efup->Download( $this->fileName, true, $this->file_password, $this->downloadfilename );
 		if( $message->code != Message::$OK) {
 				$this->ShowPage('inputPassword', array('filename' => $this->fileName, 'message' => $message->message ));
 		} else {
