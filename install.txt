@@ -1,0 +1,15 @@
+Howto install
+
+Install dependencies:
+pear install channel://pear.php.net/Archive_Zip
+pear install --alldeps HTTP_Download
+pear install channel://pear.php.net/HTML_Ajax-0.5.6
+Install Zend Framework in your PHP include_path (http://framework.zend.com)
+Install PHP uploadprogress extension (http://pecl.php.net/package/uploadprogress)
+
+
+Create a MySQL database with data from easyfup.sql
+Create an upload directory outside your web document root and make it writable by the web server.
+Update config.xml with MySQL information, path to upload directory and place the file outside the web document root.
+Change the path to config.xml in the file easyfup.php
+
