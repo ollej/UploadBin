@@ -3,7 +3,7 @@
 			<h1>FAQ & Rules</h1>
 
 			<h2>What can I use this service for?</h2>
-			<p>You can upload files to this service if you want an easy way to move files between your home and you office. You could also use the site to share a file with someone else.</p>
+			<p>You can upload files to this service if you want an easy way to move files between your home and your office. You could also use the site to share a file with someone else.</p>
 
 			<h2>What types of files can I upload?</h2>
 			<p>You can upload any types of files you like. You must be the owner of the file or be allowed to upload it. The owner's of this site accept no responsibility for any files uploaded.</p>

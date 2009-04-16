@@ -6,9 +6,7 @@
 			Facebook, post to Twitter and create a TinyUrl.</p>
 			<p>More social bookmarking sites and services might be added in the 
 			future.</p>
-			</div>
 
-			<div id="textDiv">
 			<h1>2009-03-18 - Update: Filename added to URL</h1>
 			<p>A new feature has been implemented. The filename of an uploaded file
 			can be appended to the URL, which will then be used as the filename of

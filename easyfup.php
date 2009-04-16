@@ -45,7 +45,7 @@ require_once './includes/UploadProgressMeter.class.php';
  * @global object $config
  * @name $config
  */
-$config = new Zend_Config_Xml('../data/config.xml', 'development');
+$config = new Zend_Config_Xml('config.xml', 'staging');
 
 // End of global variables.
 // -----------------------------------------------------------------------------
@@ -249,7 +249,8 @@ class EfupFile
 				return array(
 					'downloadurl' => $config->siteurl . $downloadfilename,
 					'deleteurl' => $config->siteurl . $deletehash,
-					'downloadurl_enc' => urlencode($config->siteurl . $downloadfilename)
+					'downloadurl_enc' => urlencode($config->siteurl . $downloadfilename),
+					'filename_enc' => urlencode($file->getProp('real'))
 				);
 			}
 
@@ -671,7 +672,7 @@ class EfupFile
 			$stmt = $this->_db->query($select);
 		}
 
-		if (!$stmt) return array();
+		if (empty($stmt)) return array();
 
 		$maxlen = (int) $config->maxdescinlist;
 		$files = array();
@@ -686,6 +687,12 @@ class EfupFile
 			}
 			$row['size_readable'] = size_readable($row['size'], null, '%01.2f %s', false);
 			$row['description_short'] = $shortdesc;
+			$row['description_enc'] = urlencode($descdec);
+			$row['downloadurl'] = $config->siteurl . $row['hashname'] . '/' . $row['filename'];
+			$row['downloadurl_enc'] = urlencode($row['downloadurl']);
+			$row['deleteurl'] = $config->siteurl . 'delete/' . $row['deletehash'];
+			$row['filename_enc'] = urlencode($row['filename']);
+			
 			$files[] = $row;
 
 		}
@@ -932,6 +939,11 @@ class EfupAction
 	 * @var string
 	 */
 	private $downloadfilename = '';
+	/**
+	 * Type of requesting client.
+	 * @var string
+	 */
+	private $client = '';
 
 	/**
 	 * Constructor which validates the action request variable.
@@ -1071,6 +1083,8 @@ class EfupAction
 	{
 		$urls = $this->efup->Upload($this->hashed_name, $this->hashed_key, $this->file_password, $this->firstdownloaderase, $this->description);
 		if ($this->client != 'rpc') {
+		  $services = $this->ShowPage('services', $urls, false, false, true);
+		  $urls = array_merge($urls, array('services' => $services));
 		  $message = $this->ShowPage('upload', $urls, false, false, true);
 		  #$this->ShowPage('index', array('info' => $message), true, true );
 		  echo $message;
@@ -1097,6 +1111,10 @@ class EfupAction
 	function ListFiles()
 	{
 		$files = $this->efup->ListFiles();
+		$fc = count($files);
+		for ($i = 0; $i < $fc; $i++) {
+		  $files[$i]['services'] = $this->ShowPage("services", $files[$i], false, false, true);
+		}
 		$this->ShowPage("listFiles", array('files' => $files));
 	}
 
@@ -1220,5 +1238,3 @@ try {
 	// TODO should be dynamic caller/referer
   $efupaction->showPage('index', array('error' => $error->getMessage() . "\n" . $error->getTrace()), true, true);
 }
-
-

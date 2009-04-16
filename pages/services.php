@@ -1,0 +1,5 @@
+   <a href="http://www.facebook.com/share.php?u=<?php echo $downloadurl_enc; ?>"><img src="images/share/facebook.png" alt="Share on Facebook" title="Share on Facebook" target="_blank" class="shareimage" /></a>
+   <a href="http://twitter.com/home?status=<?php echo $downloadurl_enc; ?>"><img src="images/share/twitter.png" alt="Share on Twitter" title="Share on Twitter" target="_blank" class="shareimage" /></a>
+   <a href="http://tinyurl.com/create.php?url=<?php echo $downloadurl_enc; ?>"><img src="images/share/tinyurl.png" alt="Create Tiny URL" title="Create Tiny URL" target="_blank" class="shareimage" /></a>
+   <a href="http://digg.com/submit?phase=2&amp;url=<?php echo $downloadurl_enc; ?>&amp;title=<?php echo $filename_enc; ?>&amp;bodytext=<?php echo $description_enc; ?>"><img src="images/share/digg.png" alt="Digg this!" title="Digg this!" target="_blank" class="shareimage" /></a>
+   <a href="http://del.icio.us/post?&amp;url=<?php echo $downloadurl_enc; ?>&amp;title=<?php echo $filename_enc; ?>"><img src="images/share/delicious.png" alt="Del.icio.us" title="Del.icio.us" target="_blank" class="shareimage" /></a>
