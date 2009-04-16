@@ -80,7 +80,7 @@
 			2. Receive download link and share it with friends and family</p>
 		</div>
 		<hr />
-		<div id="menuDiv"><a href="javascript:loadContent('list');">List your files</a> | <a href="javascript:loadContent('faq');">FAQ / Rules</a> | <a href="javascript:loadContent('contact');">Contact</a></div>
+		<div id="menuDiv"><a href="javascript:loadContent('list');">List your files</a> | <a href="javascript:loadContent('faq');">FAQ / Rules</a> | <a href="javascript:loadContent('blog');">Blog</a> | <a href="javascript:loadContent('contact');">Contact</a></div>
 
 		<div id='content'>
 
