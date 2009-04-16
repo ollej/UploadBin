@@ -205,6 +205,7 @@ window.uploadComplete = function(id,message) {
 
     updateKey();
     $('content').innerHTML = $('target_files').contentWindow.document.body.innerHTML;
+    $('uploadform').reset();
 }
 
 HTML_AJAX.onError = function(err) {

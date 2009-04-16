@@ -87,7 +87,7 @@
 		</div>
 		<p />
 		<div id="footerDiv">
-			<div id="copyrightDiv">&copy; Copyright 2008 Johansson Corp.</div>
+			<div id="copyrightDiv">&copy; Copyright 2009 Johansson Corp.</div>
 		</div>
 	</body>
 </html>
