@@ -248,13 +248,9 @@ class EfupFile
 			} else {
 				return array(
 					'downloadurl' => $config->siteurl . $downloadfilename,
-					'deleteurl' => $config->siteurl . $deletehash
+					'deleteurl' => $config->siteurl . $deletehash,
+					'downloadurl_enc' => urlencode($config->siteurl . $downloadfilename)
 				);
-				// $this->showPage( 'index', array( 'info' => $config->siteurl . $filename));
-				$message = " Filename to download this file: " . $config->siteurl . $filename . "<br />";
-				$message .= "URL to delete this file: ". $deletehash;
-
-				return  $message;
 			}
 
 		}

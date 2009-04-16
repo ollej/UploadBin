@@ -125,3 +125,9 @@ h3
 {
 	padding-left: 0.5em;
 }
+
+img
+(
+	border-style: none;
+	padding: 5px;
+}
