@@ -97,6 +97,8 @@
 		    <?php echo $content; ?>
 		<?php } ?>
 		</div>
+		<div id='debug'>
+		</div>
 		<p />
 		<div id="footerDiv">
 			<div id="copyrightDiv">&copy; Copyright 2009 Johansson Corp.</div>

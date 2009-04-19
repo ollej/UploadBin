@@ -1,7 +1,10 @@
 			<div class="centerDiv">
 			<div id="textDiv">
-			<h1>2009-04-19 - Minor display fixes</h1>
-			<p>Added a proper 404 page when a file wasn't found.
+			<h1>2009-04-19 - New features: Public files and emailing</h1>
+			<p>Files can now be set to public so that they show up in the
+		        public file listing. It's now also possible to enter an email
+                        address to send information about the file to upon upload.
+			Added a proper 404 page when a file wasn't found.
 			When deleting files, a full page with information is shown.</p>
 
 			<h1>2009-04-16 - New feature: Share link</h1>
