@@ -32,7 +32,7 @@
 				<a href="javascript:Effect.toggle('advancedDiv', 'blind');">Extra Options</a>
 				<div class="centerDiv">
 					<div id="advancedDiv">
-					<h2><label for="description">File description</label></h2>
+					<h2><label for="description">File description:</label></h2>
 					<textarea id="description" name="description" cols="20" rows="3" class="formclass"></textarea>
 
 					<h2><label for="file_password">Password to download file:</label></h2>
@@ -43,6 +43,10 @@
 					<label for="fdeYes">Yes</label>
 					<input type="radio" name="firstdownloaderase" id="fdeNo" value="0" checked="checked" />
 					<label for="fdeNo">No</label>
+
+					<h2><label for="email">Email file:</label></h2>
+					<input type="text" name="email" id="email" value="" class="formclass" />
+
 					</div>
 				</div>
 

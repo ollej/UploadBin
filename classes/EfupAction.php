@@ -66,6 +66,11 @@ class EfupAction
 	 * @var string
 	 */
 	private $client = '';
+	/**
+	 * Email address to send info about uploaded file to.
+	 * @var string
+	 */
+	private $email;
 
 	/**
 	 * Constructor which validates the action request variable.
@@ -118,6 +123,7 @@ class EfupAction
 				'firstdownloaderase' => array('Digits', new Zend_Validate_Between(0,1), 'default' => 0),
 				'description' => array('allowEmpty' => true, 'default' => ''),
 				'downloadfilename' => array('allowEmpty' => true, 'default' => ''),
+				'email' => array('EmailAddress', 'allowEmpty' => true, 'default' => ''),
 			);
 			$reqs = new Zend_Filter_Input($filters, $validators, $_REQUEST);
 			if ($reqs->isValid())
@@ -133,6 +139,7 @@ class EfupAction
 				$this->firstdownloaderase = $reqs->firstdownloaderase;
 				$this->description = $reqs->description;
 				$this->downloadfilename = $reqs->downloadfilename;
+				$this->email = $reqs->email;
 				if( $reqs->file_password != '' )
 				{
 					$this->file_password = sha1($reqs->file_password);
@@ -203,7 +210,7 @@ class EfupAction
 	 */
 	function Upload()
 	{
-		$urls = $this->efup->Upload($this->hashed_name, $this->hashed_key, $this->file_password, $this->firstdownloaderase, $this->description);
+	  $urls = $this->efup->Upload($this->hashed_name, $this->hashed_key, $this->file_password, $this->firstdownloaderase, $this->description, $this->email);
 		if ($this->client != 'rpc') {
 		  $services = $this->ShowPage('services', $urls, false, false, true);
 		  $urls = array_merge($urls, array('services' => $services));

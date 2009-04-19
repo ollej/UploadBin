@@ -1,5 +1,9 @@
 			<div class="centerDiv">
 			<div id="textDiv">
+			<h1>2009-04-19 - Minor display fixes</h1>
+			<p>Added a proper 404 page when a file wasn't found.
+			When deleting files, a full page with information is shown.</p>
+
 			<h1>2009-04-16 - New feature: Share link</h1>
 			<p>On the upload page we've added links to some popular online services
 			to share your link. At the moment it is possible to share the link on

@@ -114,7 +114,7 @@ class EfupFile
 	 * @uses HTTP/Upload.php
 	 * @global object Used to read configuration values.
 	 */
-	function Upload($hashed_name, $hashed_key, $file_password, $firstdownloaderase, $descr)
+	function Upload($hashed_name, $hashed_key, $file_password, $firstdownloaderase, $descr, $email)
 	{
 		global $config;
 
@@ -190,22 +190,44 @@ class EfupFile
 			// Everything is OK, add to the list of files.
 			$this->files[$filename] = $file;
 
-			// Should print a nice table of uploaded files instead.
+			// Setup file information
 			$downloadfilename = $filename . '/' . urlencode($file->getProp('real'));
+			$fileinfo = array(
+					  'downloadurl' => $config->siteurl . $downloadfilename,
+					  'deleteurl' => $config->siteurl . $deletehash,
+					  'downloadurl_enc' => urlencode($config->siteurl . $downloadfilename),
+					  'filename_enc' => urlencode($file->getProp('real')),
+					  'filename' => $filename
+					  );
+
+			// Check if an info email should be sent about the file.
+			if (!empty($email)) {
+			  $this->sendEmail($email, $fileinfo);
+			}
+
+			// Should print a nice table of uploaded files instead.
 			if ($this->client == "rpc")
 			{
 				echo $config->siteurl . $downloadfilename;
 			} else {
-				return array(
-					'downloadurl' => $config->siteurl . $downloadfilename,
-					'deleteurl' => $config->siteurl . $deletehash,
-					'downloadurl_enc' => urlencode($config->siteurl . $downloadfilename),
-					'filename_enc' => urlencode($file->getProp('real'))
-				);
+			  return $fileinfo;
 			}
 
 		}
 	}
+
+		function sendEmail($email, $fileinfo)
+		{
+		  global $config, $logger;
+		  $body = "You have been sent a file via Uploadbin.net:\n\nYou can download it from this address:\n" . $fileinfo['downloadurl'];
+		  $logger->info('Sending email to: ' . $email . ' body: ' . $body);
+		  $mail = new Zend_Mail();
+		  $mail->setBodyText($body);
+		  $mail->setFrom($config->admin->email, $config->admin->name);
+		  $mail->addTo($email);
+		  $mail->setSubject('Uploadbin.net - Uploaded file: ' . $fileinfo['filename']);
+		  $mail->send();
+		}
 
 	/**
 	* Downloads a file with the supplied file name.

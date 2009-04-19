@@ -31,6 +31,11 @@ require_once 'Zend/Auth.php';
 require_once 'Zend/Auth/Adapter/DbTable.php';
 require_once 'Zend/Validate/Between.php';
 require_once 'Zend/Validate/Alnum.php';
+require_once 'Zend/Mail.php';
+require_once 'Zend/Log.php';
+require_once 'Zend/Log/Writer/Firebug.php';
+require_once 'Zend/Log/Writer/Stream.php';
+require_once 'Zend/Log.php';
 require_once './includes/size_readable.php';
 require_once './includes/UploadProgressMeter.class.php';
 
@@ -58,6 +63,12 @@ $config = new Zend_Config_Xml('config.xml', 'staging');
 // End of global variables.
 // -----------------------------------------------------------------------------
 
+$logger = new Zend_Log();
+$writer1 = new Zend_Log_Writer_Firebug();
+$logger->addWriter($writer1);
+$writer2 = new Zend_Log_Writer_Stream('data/error.log');
+$logger->addWriter($writer2);
+
 // Handle the request.
 try {
 	$efupaction = new EfupAction($config->uploaddir);
@@ -68,6 +79,7 @@ try {
 } catch (Exception $error) {
 	// include index page
 	// TODO should be dynamic caller/referer
+  $logger->err($err);
   if ($efupaction) {
     $efupaction->showPage('index', array('error' => $error->getMessage()), true, true, false);
   }

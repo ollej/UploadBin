@@ -3,6 +3,10 @@
     <production>
         <siteurl>http://uploadbin.net/</siteurl>
         <sitename>UploadBin</sitename>
+	<admin>
+	  <email>info@uploadbin.net</email>
+	  <name>Uploadbin.net</name>
+	</admin>
         <uploaddir>/home/olle/uploadbin_uploads/</uploaddir>
         <hashtype>uuid</hashtype>
 		<cookielifetime>2592000</cookielifetime>
