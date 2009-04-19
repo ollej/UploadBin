@@ -273,7 +273,10 @@ class EfupFile
 		global $config;
 
 		// Load the file.
-		$this->_LoadFile($hash, false);
+		$err = $this->_LoadFile($hash, false);
+		if (!is_string($err) && $err->code == Message::$ERROR) {
+		  return $err;
+		}
 		$file = $this->getFile($hash);
 
 		// Make sure the file isn't locked.
@@ -471,8 +474,6 @@ class EfupFile
 			$hashfield = 'hashname';
 		}
 
-		try
-		{
 			if (!isset($this->files[$hash]))
 			{
 				$select = $this->_db->select()
@@ -480,11 +481,13 @@ class EfupFile
 					->where("$hashfield = ?", $hash);
 				$stmt = $this->_db->query($select);
 				$file = $stmt->fetchObject();
-				$this->files[$file->hashname] = $file;
+				if (!empty($file)) {
+				  $this->files[$file->hashname] = $file;
+				} else {
+				  return new Message(Message::$ERROR, "File not found: $hash");
+				  #throw new Exception("File not found: $hash");
+				}
 			}
-		} catch (Exception $e) {
-			throw new Exception("Couldn't load file: $hash\n{$e->getMessage()}");
-		}
 
 		return $file->hashname;
 	}
@@ -1097,7 +1100,11 @@ class EfupAction
 	function Download()
 	{
 		$message = $this->efup->Download( $this->fileName, true, $this->file_password, $this->downloadfilename );
-		if( $message->code != Message::$OK) {
+		if ($message->code == Message::$ERROR) {
+
+				header('HTTP/1.0 404 Not Found');
+				$this->ShowPage('index', array('error' => $message->message), false, true);
+		} else if( $message->code != Message::$OK) {
 				$this->ShowPage('inputPassword', array('filename' => $this->fileName, 'message' => $message->message ));
 		} else {
 				$this->ShowPage('index', array('info' => $message->message), false, true);
@@ -1221,9 +1228,14 @@ class Message
 	public $code;
 
 	public static $OK = 0;
+	public static $ERROR = -1;
 	public static $PASSWORD_REQUIRED = 1;
 	public static $INVALID_PASSWORD = 2;
 
+	function __construct($code = NULL, $message = NULL) {
+	  $this->code = $code;
+	  $this->message = $message;
+	}
 }
 
 // Handle the request.
@@ -1236,5 +1248,7 @@ try {
 } catch (Exception $error) {
 	// include index page
 	// TODO should be dynamic caller/referer
-  $efupaction->showPage('index', array('error' => $error->getMessage() . "\n" . $error->getTrace()), true, true);
+  if ($efupaction) {
+    $efupaction->showPage('index', array('error' => $error->getMessage()), true, true, false);
+  }
 }

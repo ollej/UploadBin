@@ -4,6 +4,7 @@
 	<head>
 		<title>UploadBin</title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<base href="<?php echo $config->siteurl; ?>">
 		<meta name="description" content="A free online service to upload and share any file quick and easy. Each uploaded file receives a unique URL which is used to download it by anyone who knows it. Unlimited online web based hard drive solution." />
 		<script language="Javascript" type="text/javascript" src="includes/sha256.js"></script>
 		<script language="Javascript" type="text/javascript" src="includes/prototype.js"></script>
@@ -31,15 +32,17 @@
 				<a href="javascript:Effect.toggle('advancedDiv', 'blind');">Extra Options</a>
 				<div class="centerDiv">
 					<div id="advancedDiv">
-					<h2>File description</h2>
-					<textarea name="description" cols="20" rows="3" class="formclass"></textarea>
+					<h2><label for="description">File description</label></h2>
+					<textarea id="description" name="description" cols="20" rows="3" class="formclass"></textarea>
 
-					<h2>Password to download file:</h2>
-					<input type="password" name="file_password" class="formclass" />
+					<h2><label for="file_password">Password to download file:</label></h2>
+					<input type="password" id="file_password" name="file_password" class="formclass" />
 
 					<h2>Erase file after first download?</h2>
-					<input type="radio" name="firstdownloaderase" value="1" /> Yes
-					<input type="radio" name="firstdownloaderase" value="0" checked="checked" /> No
+					<input type="radio" name="firstdownloaderase" id="fdeYes" value="1" />
+					<label for="fdeYes">Yes</label>
+					<input type="radio" name="firstdownloaderase" id="fdeNo" value="0" checked="checked" />
+					<label for="fdeNo">No</label>
 					</div>
 				</div>
 
@@ -48,23 +51,20 @@
 				</div>
 				<?php $this->fileWidget->enableDebug(); ?>
 				
-				<?php if(isset($warning)) { ?>
+				<?php if (isset($warning)) { ?>
 				<div id='warningDiv'>
-					<?php
-						echo $warning;
-					?>
+					<?php echo $warning; ?>
 				</div> <!-- Warning Div -->
 				<?php }?>
-				<?php if(isset($error)) { ?>
+				<?php if (isset($error)) { ?>
 				<div id='errorDiv'>
-					<?php
-							echo $error;
-					?>
+				<h1>Error</h1>
+					<p><?php echo $error; ?></p>
 				</div> <!-- Error Div -->
-				<?php }?>
+				<?php } ?>
 				<p><input type="submit" value="Continue &#8594;" />
 				<img src="images/loading.gif" border="0" alt="Loading" id="loadingimage" /></p>
-				<?php if(isset($info)) { ?>
+				<?php if (isset($info)) { ?>
 				<div id='infoDiv'>
 					<?php
 							echo $info;
@@ -83,7 +83,9 @@
 		<div id="menuDiv"><a href="javascript:loadContent('list');">List your files</a> | <a href="javascript:loadContent('faq');">FAQ / Rules</a> | <a href="javascript:loadContent('blog');">Blog</a> | <a href="javascript:loadContent('contact');">Contact</a></div>
 
 		<div id='content'>
-
+		<?php if (isset($info)) { ?>
+		    <?php echo $content; ?>
+		<?php } ?>
 		</div>
 		<p />
 		<div id="footerDiv">
