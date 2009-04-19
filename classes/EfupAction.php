@@ -249,7 +249,8 @@ class EfupAction
 	 */
 	function Delete()
 	{
-		$this->efup->Delete( $this->fileName, true );
+		$message = $this->efup->Delete( $this->fileName, true );
+		$this->ShowPage('index', array('info' => $message->message), false, true);
 	}
 
 	/**

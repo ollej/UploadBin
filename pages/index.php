@@ -83,7 +83,7 @@
 		<div id="menuDiv"><a href="javascript:loadContent('list');">List your files</a> | <a href="javascript:loadContent('faq');">FAQ / Rules</a> | <a href="javascript:loadContent('blog');">Blog</a> | <a href="javascript:loadContent('contact');">Contact</a></div>
 
 		<div id='content'>
-		<?php if (isset($info)) { ?>
+		<?php if (!empty($content)) { ?>
 		    <?php echo $content; ?>
 		<?php } ?>
 		</div>

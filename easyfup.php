@@ -58,9 +58,6 @@ $config = new Zend_Config_Xml('config.xml', 'staging');
 // End of global variables.
 // -----------------------------------------------------------------------------
 
-
-
-
 // Handle the request.
 try {
 	$efupaction = new EfupAction($config->uploaddir);

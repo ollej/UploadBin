@@ -298,6 +298,10 @@ class EfupFile
 		global $config;
 
 		// Load the file information.
+		$filename = $this->_LoadFile($hash, false);
+		if (!is_string($filename) && $filename->code == Message::$ERROR) {
+		  return $filename;
+		}
 		$filename = $this->_LoadFile($hash, $hashtype);
 		if (!$filename)
 		{
@@ -327,7 +331,7 @@ class EfupFile
 			unlink($this->dir . $filename);
 		}
 
-		print "File {$file->filename} deleted.";
+		return new Message(Message::$OK, "File {$file->filename} deleted.");
 	}
 
 	/**
@@ -547,11 +551,11 @@ class EfupFile
 	 */
 	function getFile($hash)
 	{
-		if (isset($this->files[$hash]))
+	        if (!empty($this->files) && isset($this->files[$hash]))
 		{
 			return $this->files[$hash];
 		} else {
-			throw new Exception("File isn't loaded.");
+			throw new Exception("No such file: $hash");
 		}
 	}
 
