@@ -47,6 +47,12 @@
 					<h2><label for="email">Email file:</label></h2>
 					<input type="text" name="email" id="email" value="" class="formclass" />
 
+					<h2><label for="public">Allow public listing?</label></h2>
+					<input type="radio" name="public" id="pubYes" value="1" />
+					<label for="pubYes">Yes</label>
+					<input type="radio" name="public" id="pubNo" value="0" checked="checked" />
+					<label for="pubNo">No</label>
+
 					</div>
 				</div>
 
@@ -84,7 +90,7 @@
 			2. Receive download link and share it with friends and family</p>
 		</div>
 		<hr />
-		<div id="menuDiv"><a href="javascript:loadContent('list');">List your files</a> | <a href="javascript:loadContent('faq');">FAQ / Rules</a> | <a href="javascript:loadContent('blog');">Blog</a> | <a href="javascript:loadContent('contact');">Contact</a></div>
+		<div id="menuDiv"><a href="javascript:loadContent('list');">List your files</a> | <a href="javascript:loadContent('listpublic');">List public files</a> | <a href="javascript:loadContent('faq');">FAQ / Rules</a> | <a href="javascript:loadContent('blog');">Blog</a> | <a href="javascript:loadContent('contact');">Contact</a></div>
 
 		<div id='content'>
 		<?php if (!empty($content)) { ?>

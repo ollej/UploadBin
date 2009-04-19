@@ -63,11 +63,13 @@ $config = new Zend_Config_Xml('config.xml', 'staging');
 // End of global variables.
 // -----------------------------------------------------------------------------
 
-$logger = new Zend_Log();
-$writer1 = new Zend_Log_Writer_Firebug();
-$logger->addWriter($writer1);
-$writer2 = new Zend_Log_Writer_Stream('data/error.log');
-$logger->addWriter($writer2);
+if ($config->debug == "1") {
+  $logger = new Zend_Log();
+  $writer1 = new Zend_Log_Writer_Firebug();
+  $logger->addWriter($writer1);
+  $writer2 = new Zend_Log_Writer_Stream('data/error.log');
+  $logger->addWriter($writer2);
+}
 
 // Handle the request.
 try {
@@ -79,7 +81,7 @@ try {
 } catch (Exception $error) {
 	// include index page
 	// TODO should be dynamic caller/referer
-  $logger->err($err);
+  $logger->err($error);
   if ($efupaction) {
     $efupaction->showPage('index', array('error' => $error->getMessage()), true, true, false);
   }

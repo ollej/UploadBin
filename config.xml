@@ -7,6 +7,7 @@
 	  <email>info@uploadbin.net</email>
 	  <name>Uploadbin.net</name>
 	</admin>
+	<debug>0</debug>
         <uploaddir>/home/olle/uploadbin_uploads/</uploaddir>
         <hashtype>uuid</hashtype>
 		<cookielifetime>2592000</cookielifetime>
@@ -31,6 +32,7 @@
     <staging extends="production">
         <siteurl>http://localhost/easyfup/</siteurl>
         <uploaddir>./uploads/</uploaddir>
+	<debug>1</debug>
         <database>
             <host>localhost</host>
             <username>root</username>

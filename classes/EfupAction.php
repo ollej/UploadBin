@@ -71,6 +71,11 @@ class EfupAction
 	 * @var string
 	 */
 	private $email;
+	/**
+	 * Allow public listing of file.
+	 * @var boolean
+	 */
+	private $public;
 
 	/**
 	 * Constructor which validates the action request variable.
@@ -110,6 +115,7 @@ class EfupAction
 				'file_password' => 'Alnum',
 				'firstdownloaderase' => 'Digits',
 				'downloadfilename' => 'BaseName',
+				'public' => 'Digits',
 			);
 			$validators = array(
 				'action' => 'Alpha',
@@ -124,6 +130,7 @@ class EfupAction
 				'description' => array('allowEmpty' => true, 'default' => ''),
 				'downloadfilename' => array('allowEmpty' => true, 'default' => ''),
 				'email' => array('EmailAddress', 'allowEmpty' => true, 'default' => ''),
+				'public' => array('Digits', new Zend_Validate_Between(0,1), 'default' => '0'),
 			);
 			$reqs = new Zend_Filter_Input($filters, $validators, $_REQUEST);
 			if ($reqs->isValid())
@@ -140,6 +147,7 @@ class EfupAction
 				$this->description = $reqs->description;
 				$this->downloadfilename = $reqs->downloadfilename;
 				$this->email = $reqs->email;
+				$this->public = $reqs->public;
 				if( $reqs->file_password != '' )
 				{
 					$this->file_password = sha1($reqs->file_password);
@@ -193,6 +201,7 @@ class EfupAction
 			case "direct_download" : $this->Download(); break;
 			case "download": $this->Download(); break;	//TODO Show Download Page instead of direct download
 			case "list": $this->ListFiles(); break;
+			case "listpublic": $this->ListFiles(true); break;
 			case "delete": $this->Delete(); break;
 			case "getkey": $this->GetKey(); break;
 			case "logout": $this->Logout(); break;
@@ -210,7 +219,7 @@ class EfupAction
 	 */
 	function Upload()
 	{
-	  $urls = $this->efup->Upload($this->hashed_name, $this->hashed_key, $this->file_password, $this->firstdownloaderase, $this->description, $this->email);
+	  $urls = $this->efup->Upload($this->hashed_name, $this->hashed_key, $this->file_password, $this->firstdownloaderase, $this->description, $this->email, $this->public);
 		if ($this->client != 'rpc') {
 		  $services = $this->ShowPage('services', $urls, false, false, true);
 		  $urls = array_merge($urls, array('services' => $services));
@@ -240,10 +249,12 @@ class EfupAction
 
 	/**
 	 * Shows files beloning to the current user.
+	 * 
+	 * @param boolean $public Show public files
 	 */
-	function ListFiles()
+	function ListFiles($public = false)
 	{
-		$files = $this->efup->ListFiles();
+		$files = $this->efup->ListFiles($public);
 		$fc = count($files);
 		for ($i = 0; $i < $fc; $i++) {
 		  $files[$i]['services'] = $this->ShowPage("services", $files[$i], false, false, true);

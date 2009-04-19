@@ -12,6 +12,7 @@ RewriteRule ^contact/?$ easyfup.php?action=contact [L]
 RewriteRule ^delete/([a-z0-9]{64}) easyfup.php?action=delete&name=$1 [L]
 RewriteRule ^view/([a-z0-9]{32}) easyfup.php?action=view&name=$1 [L]
 RewriteRule ^status/([a-z0-9]{32}) easyfup.php?action=status&name=$1 [L]
+RewriteRule ^listpublic/?$ easyfup.php?action=listpublic [L]
 
 # We don't want no friggin magic quotes!
 php_flag magic_quotes_gpc off

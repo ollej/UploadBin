@@ -29,6 +29,7 @@ CREATE TABLE `files` (
   `firstdownloaderase` tinyint NOT NULL default 0,
   `deletehash` varchar(255) NOT NULL,
   `description` mediumtext NOT NULL default '',
+  `public` tinyint(1) NOT NULL DEFAULT 0,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 

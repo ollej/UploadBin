@@ -114,7 +114,7 @@ class EfupFile
 	 * @uses HTTP/Upload.php
 	 * @global object Used to read configuration values.
 	 */
-	function Upload($hashed_name, $hashed_key, $file_password, $firstdownloaderase, $descr, $email)
+	function Upload($hashed_name, $hashed_key, $file_password, $firstdownloaderase, $descr, $email, $public)
 	{
 		global $config;
 
@@ -181,7 +181,7 @@ class EfupFile
 			}
 
 			// Save the file.
-			$fileoptions = $this->_SaveFile($file, $file_password, $firstdownloaderase, $descr);
+			$fileoptions = $this->_SaveFile($file, $file_password, $firstdownloaderase, $descr, $public);
 
 			// Read the options for the file.
 			$filename = $fileoptions['filename'];
@@ -474,7 +474,7 @@ class EfupFile
 	 * @param object $file HTTP_Upload file object.
 	 * @global object Used to read configuration values.
 	 */
-	function _SaveFile(&$file, $file_password, $firstdownloaderase, $descr)
+	function _SaveFile(&$file, $file_password, $firstdownloaderase, $descr, $public)
 	{
 
 		global $config;
@@ -514,6 +514,7 @@ class EfupFile
 			'firstdownloaderase' => $firstdownloaderase,
 			'deletehash'  => $deletehash,
 			'description' => $descr,
+			'public'      => (int) $public,
 		);
 
 		// Save information about the file in the database.
@@ -630,26 +631,28 @@ class EfupFile
 		return $message;
 	}
 
-
 	/**
 	 * Lists files uploaded based on hash in cookie.
 	 *
 	 * @global object Used to read configuration values.
+	 * @param boolean $public Whether to show public files or not.
 	 */
-	function ListFiles()
+	function ListFiles($public = false)
 	{
 		global $config;
 
-		if (isset($_COOKIE[$config->sitename]))
+		$select = $this->_db->select();
+		$select->from(array('f' => $this->_tbl_files));
+		if (!$public && isset($_COOKIE[$config->sitename]))
 		{
-			$select = $this->_db->select();
-			$select->from(array('f' => $this->_tbl_files));
-			foreach ($_COOKIE[$config->sitename] as $name => $value)
-			{
-				$select->orWhere('hashname = ?', $value);
-			}
-			$stmt = $this->_db->query($select);
+		  foreach ($_COOKIE[$config->sitename] as $name => $value)
+		    {
+		      $select->orWhere('hashname = ?', $value);
+		    }
+		} else if ($public) {
+		  $select->orWhere('public = ?', $public);
 		}
+		$stmt = $this->_db->query($select);
 
 		if (empty($stmt)) return array();
 
