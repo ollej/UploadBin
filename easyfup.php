@@ -81,7 +81,9 @@ try {
 } catch (Exception $error) {
 	// include index page
 	// TODO should be dynamic caller/referer
-  $logger->err($error);
+  if (!empty($logger)) {
+      $logger->err($error);
+  }
   if ($efupaction) {
     $efupaction->showPage('index', array('error' => $error->getMessage()), true, true, false);
   }
