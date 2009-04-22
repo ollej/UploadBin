@@ -647,11 +647,12 @@ class EfupFile
 		{
 		  foreach ($_COOKIE[$config->sitename] as $name => $value)
 		    {
-		      $select->orWhere('hashname = ?', $value);
+		      $select->orWhere('hashname = ? AND public = 0', $value);
 		    }
 		} else if ($public) {
 		  $select->orWhere('public = ?', $public);
 		} else {
+		  $select->reset();
 		  return array();
 		}
 		$stmt = $this->_db->query($select);
