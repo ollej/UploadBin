@@ -124,7 +124,7 @@ class EfupAction
 				'hashed_key' => 'Hex',
 				'username' => 'Alnum',
 				'password' => 'Alnum',
-				'client' => 'Alpha',
+				'client' => array('Alpha', 'allowEmpty' => true),
 				'file_password' => array('Alnum', 'allowEmpty' => true),
 				'firstdownloaderase' => array('Digits', new Zend_Validate_Between(0,1), 'default' => 0),
 				'description' => array('allowEmpty' => true, 'default' => ''),
@@ -142,7 +142,7 @@ class EfupAction
 				$this->username = $reqs->username;
 				$this->password = $reqs->password;
 				$this->direct_dowload = $reqs->password;
-				$this->efup->client = strtolower($reqs->client);
+				$this->client = strtolower($reqs->client);
 				$this->firstdownloaderase = $reqs->firstdownloaderase;
 				$this->description = $reqs->description;
 				$this->downloadfilename = $reqs->downloadfilename;
@@ -220,7 +220,9 @@ class EfupAction
 	function Upload()
 	{
 	  $urls = $this->efup->Upload($this->hashed_name, $this->hashed_key, $this->file_password, $this->firstdownloaderase, $this->description, $this->email, $this->public);
-		if ($this->client != 'rpc') {
+		if ($this->client == 'rpc') {
+		  echo $urls['downloadurl'];
+		} else {
 		  $services = $this->ShowPage('services', $urls, false, false, true);
 		  $urls = array_merge($urls, array('services' => $services));
 		  $message = $this->ShowPage('upload', $urls, false, false, true);

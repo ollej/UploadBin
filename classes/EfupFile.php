@@ -41,13 +41,6 @@ class EfupFile
 	 * @var string
 	 */
 	private $_tbl_keys;
-	/**
-	 * Client type.
-	 * @var string
-	 */
-	public $client;
-
-
 
 	/**
 	 * Constructor which initializes some values.
@@ -205,13 +198,7 @@ class EfupFile
 			  $this->sendEmail($email, $fileinfo);
 			}
 
-			// Should print a nice table of uploaded files instead.
-			if ($this->client == "rpc")
-			{
-				echo $config->siteurl . $downloadfilename;
-			} else {
-			  return $fileinfo;
-			}
+			return $fileinfo;
 
 		}
 	}
