@@ -651,6 +651,8 @@ class EfupFile
 		    }
 		} else if ($public) {
 		  $select->orWhere('public = ?', $public);
+		} else {
+		  return array();
 		}
 		$stmt = $this->_db->query($select);
 

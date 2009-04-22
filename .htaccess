@@ -1,8 +1,8 @@
 RewriteEngine On
 
-RewriteCond %{HTTP_HOST}   !^uploadbin\.net [NC]
-RewriteCond %{HTTP_HOST}   !^$
-RewriteRule (.*)         http://uploadbin.net/$1 [L,R]
+#RewriteCond %{HTTP_HOST}   !^uploadbin\.net [NC]
+#RewriteCond %{HTTP_HOST}   !^$
+#RewriteRule (.*)         http://uploadbin.net/$1 [L,R]
 
 #RewriteRule #(.*)$ easyfup.php?action=$1 [R,L]
 RewriteRule ^$ easyfup.php [L]
