@@ -138,6 +138,7 @@ class EfupFile
 		// Set execution time and max upload size.
 		ini_set('max_execution_time', $config->maxexecutiontime);
 		ini_set('max_upload_size', $config->maxuploadsize);
+		ini_set('post_max_size', $config->maxuploadsize);
 
 		// Parse through the files and save them to the disk.
 		foreach ($files as $file)
