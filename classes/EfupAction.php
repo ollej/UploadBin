@@ -83,10 +83,13 @@ class EfupAction
 	 */
 	function __construct($dir)
 	{
+		global $config;
+
 		// Create an EfupFile object.
 		$this->efup = new EfupFile($dir);
 		
 		$this->fileWidget = new UploadProgressMeter();
+		$this->fileWidget->maxFileSize = $config->maxuploadsize;
 		#$this->fileWidget->enableDebug();
 	}
 

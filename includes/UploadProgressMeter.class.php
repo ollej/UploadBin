@@ -51,10 +51,9 @@ class UploadProgressMeter {
 
 	var $input = '<input id="[name]" name="[submit_name]" size="30" type="file" />';
 
-	var $hidden = '<input type="hidden" name="UPLOAD_IDENTIFIER" value="[id]" />';
+	var $hidden = '<input type="hidden" name="UPLOAD_IDENTIFIER" value="[id]" /><input type="hidden" name="MAX_FILE_SIZE" value="[max_file_size]" />';
 
 	function UploadProgressMeter() {
-		$this->hidden .= '<input type="hidden" name="MAX_FILE_SIZE" value="'.$this->maxFileSize.'" />';
 	}
 
 	function enableDebug() {
@@ -153,7 +152,7 @@ class UploadProgressMeter {
 	}
 
 	function renderHiddenFields() {
-		return str_replace('[id]',$this->getUploadId(),$this->hidden);
+		return str_replace(array('[id]','[max_file_size]'),array($this->getUploadId(),$this->maxFileSize),$this->hidden);
 	}
 	
 
