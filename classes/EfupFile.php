@@ -126,7 +126,7 @@ class EfupFile
 
 		// Check if this is considered spam.
 		// When we have description, add in the argument array as comment_content
-		if ($this->SpamCheck())
+		if ($config->spamcheck && $this->SpamCheck())
 		{
 			throw new Exception("You seem to be spamming us. Shame on you!");
 		}
