@@ -264,7 +264,7 @@ class EfupAction
 		for ($i = 0; $i < $fc; $i++) {
 		  $files[$i]['services'] = $this->ShowPage("services", $files[$i], false, false, true);
 		}
-		$this->ShowPage("listFiles", array('files' => $files));
+		$this->ShowPage("listFiles", array('public' => $public, 'files' => $files));
 	}
 
 	/**
