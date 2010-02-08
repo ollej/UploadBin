@@ -18,7 +18,7 @@
 	</head>
 	<body>
 		<div id="uploadDiv">
-			<h1><a href="index"><img src="uploadbin.png" id='logo' alt="UploadBin" title="UploadBin" /></a></h1>
+			<h1><a href="index"><img src="images/uploadbin.png" id='logo' alt="UploadBin" title="UploadBin" /></a></h1>
 			<div id="uploadFormDiv">
 			<form id="uploadform" name="uploadform" action="upload" method="post" enctype="multipart/form-data" accept-charset="utf-8" <?php echo $this->fileWidget->renderFormExtra(); ?>>
 				<?php echo $this->fileWidget->renderHidden(); ?>
