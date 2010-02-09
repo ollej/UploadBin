@@ -191,7 +191,8 @@ class EfupFile
 					  'deleteurl' => $config->siteurl . $deletehash,
 					  'downloadurl_enc' => urlencode($config->siteurl . $downloadfilename),
 					  'filename_enc' => urlencode($file->getProp('real')),
-					  'filename' => $filename
+					  'filename' => $filename,
+					  'description' => $descr
 					  );
 
 			// Check if an info email should be sent about the file.
@@ -208,6 +209,9 @@ class EfupFile
 		{
 		  global $config, $logger;
 		  $body = "You have been sent a file via Uploadbin.net:\n\nYou can download it from this address:\n" . $fileinfo['downloadurl'];
+		  if ($fileinfo['description']) {
+		  	$body .="\n\nFile description:\n" . $fileinfo['description'];
+		  }
 		  $logger->info('Sending email to: ' . $email . ' body: ' . $body);
 		  $mail = new Zend_Mail();
 		  $mail->setBodyText($body);

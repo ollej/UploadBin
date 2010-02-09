@@ -29,36 +29,36 @@
 				<?php echo $this->fileWidget->render(); ?>
 				
 				<br />
-				<a href="javascript:Effect.toggle('advancedDiv', 'blind');">Extra Options</a>
+				<a href="javascript:Effect.toggle('advancedDiv', 'blind', { duration: 0.1 });">Extra Options</a>
 				<div class="centerDiv">
 					<div id="advancedDiv">
-					<h2><label for="description">File description:</label></h2>
-					<textarea id="description" name="description" cols="20" rows="3" class="formclass"></textarea>
+						<h2><label for="description" title="Description of the file that will be listed in the file list.">File description:</label></h2>
+						<textarea id="description" name="description" cols="20" rows="3" class="formclass"></textarea>
 
-					<h2><label for="file_password">Password to download file:</label></h2>
-					<input type="password" id="file_password" name="file_password" class="formclass" />
+						<h2><label for="file_password" title="Enter a password that needs to be supplied to be able to download the file.">Password to download file:</label></h2>
+						<input type="password" id="file_password" name="file_password" class="formclass" />
 
-					<h2>Erase file after first download?</h2>
-					<input type="radio" name="firstdownloaderase" id="fdeYes" value="1" />
-					<label for="fdeYes">Yes</label>
-					<input type="radio" name="firstdownloaderase" id="fdeNo" value="0" checked="checked" />
-					<label for="fdeNo">No</label>
+						<h2 title="If set to Yes, this file will be deleted once it has been downloaded.">Erase file after first download?</h2>
+						<input type="radio" name="firstdownloaderase" id="fdeYes" value="1" />
+						<label for="fdeYes">Yes</label>
+						<input type="radio" name="firstdownloaderase" id="fdeNo" value="0" checked="checked" />
+						<label for="fdeNo">No</label>
 
-					<h2><label for="email">Email file:</label></h2>
-					<input type="text" name="email" id="email" value="" class="formclass" />
+						<h2><label for="email" title="If an email address is supplied, an email with the download URL to the file will be sent to the address.">Email file:</label></h2>
+						<input type="text" name="email" id="email" value="" class="formclass" />
 
-					<h2><label for="public">Allow public listing?</label></h2>
-					<input type="radio" name="public" id="pubYes" value="1" />
-					<label for="pubYes">Yes</label>
-					<input type="radio" name="public" id="pubNo" value="0" checked="checked" />
-					<label for="pubNo">No</label>
+						<h2><label for="public" title="If set to Yes, this file will be listed publically on the site and can be downloaded by anyone.">Allow public listing?</label></h2>
+						<input type="radio" name="public" id="pubYes" value="1" />
+						<label for="pubYes">Yes</label>
+						<input type="radio" name="public" id="pubNo" value="0" checked="checked" />
+						<label for="pubNo">No</label>
 
-					</div>
-				</div>
+					</div> <!-- Advanced Div -->
+				</div> <!-- Center Div -->
 
 				<div id="progressbarDiv">
 				<?php echo $this->fileWidget->renderProgressBar(); ?>
-				</div>
+				</div> <!-- Progressbar Div -->
 				<?php $this->fileWidget->enableDebug(); ?>
 				
 				<?php if (isset($warning)) { ?>
@@ -88,7 +88,7 @@
 			<p>Send your files with UploadBin for free<br />
 			1. Select your file and upload it<br />
 			2. Receive download link and share it with friends and family</p>
-		</div>
+		</div> <!-- Help Div -->
 		<hr />
 		<div id="menuDiv"><a href="javascript:loadContent('list');">List your files</a> | <a href="javascript:loadContent('listpublic');">List public files</a> | <a href="javascript:loadContent('faq');">FAQ / Rules</a> | <a href="javascript:loadContent('blog');">Blog</a> | <a href="javascript:loadContent('contact');">Contact</a></div>
 
@@ -96,12 +96,11 @@
 		<?php if (!empty($content)) { ?>
 		    <?php echo $content; ?>
 		<?php } ?>
-		</div>
-		<div id='debug'>
-		</div>
+		</div> <!-- Content Div -->
+		<div id='debug'></div>
 		<p />
 		<div id="footerDiv">
-			<div id="copyrightDiv">&copy; Copyright 2009 Johansson Corp.</div>
-		</div>
+			<div id="copyrightDiv">&copy; Copyright 2009-2010 Johansson Corp.</div>
+		</div> <!-- Footer Div -->
 	</body>
 </html>
