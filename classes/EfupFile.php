@@ -464,7 +464,6 @@ class EfupFile
 	 */
 	function _SaveFile(&$file, $file_password, $firstdownloaderase, $descr, $public)
 	{
-
 		global $config;
 
 		// Create a hash for this file.

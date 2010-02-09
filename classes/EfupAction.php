@@ -113,7 +113,6 @@ class EfupAction
 				'hashed_name' => 'Alnum',
 				'hashed_key' => 'Alnum',
 				'username' => 'Alnum',
-				'password' => 'Alnum',
 				'client' => 'Alpha',
 				'file_password' => 'Alnum',
 				'firstdownloaderase' => 'Digits',
@@ -128,7 +127,7 @@ class EfupAction
 				'username' => 'Alnum',
 				'password' => 'Alnum',
 				'client' => array('Alpha', 'allowEmpty' => true),
-				'file_password' => array('Alnum', 'allowEmpty' => true),
+				'file_password' => array('allowEmpty' => true),
 				'firstdownloaderase' => array('Digits', new Zend_Validate_Between(0,1), 'default' => 0),
 				'description' => array('allowEmpty' => true, 'default' => ''),
 				'downloadfilename' => array('allowEmpty' => true, 'default' => ''),
@@ -144,7 +143,7 @@ class EfupAction
 				$this->hashed_key = $reqs->hashed_key;
 				$this->username = $reqs->username;
 				$this->password = $reqs->password;
-				$this->direct_dowload = $reqs->password;
+				$this->direct_download = $reqs->password;
 				$this->client = strtolower($reqs->client);
 				$this->firstdownloaderase = $reqs->firstdownloaderase;
 				$this->description = $reqs->description;
