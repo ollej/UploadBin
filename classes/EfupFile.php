@@ -308,11 +308,10 @@ class EfupFile
 		global $config;
 
 		// Load the file information.
-		$filename = $this->_LoadFile($hash, false);
+		$filename = $this->_LoadFile($hash, $hashtype);
 		if (!is_string($filename) && $filename->code == Message::$ERROR) {
 		  return $filename;
 		}
-		$filename = $this->_LoadFile($hash, $hashtype);
 		if (!$filename)
 		{
 			throw new Exception("File not found.");
