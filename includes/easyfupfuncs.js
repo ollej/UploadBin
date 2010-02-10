@@ -29,7 +29,12 @@ function updateKey()
 // Loads content into the content div
 function loadContent( page ) {
 	self.document.location.hash = page;
-	new Ajax.Updater('content', page);
+	new Ajax.Updater('content', page, {
+		onComplete: function () {
+			Effect.ScrollTo('content', { duration: 0.2 });	
+		}
+	});
+	
 }
 
 // Initialize some things when the page loads.
