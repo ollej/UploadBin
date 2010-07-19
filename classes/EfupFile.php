@@ -170,7 +170,7 @@ class EfupFile
 			}
 
 			// Make sure this file doesn't contain a virus.
-			$vc = new VirusChecker($file->getProp('tmp', $this->_config);
+			$vc = new VirusChecker($file->getProp('tmp_name'), $this->_config);
 			if ($vc->scan() > 0) {
 				throw new Exception("File contains a virus!");
 			}
