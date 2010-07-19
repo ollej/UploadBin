@@ -10,13 +10,13 @@ class VCScanner_ClamScan implements VCScanner
      * Runs clamscan on the given file.
      */
     public function scan($filename) {
-        $retval = exec('clamscan --no-summary --infected --scan-archive=yes ' . escapeshellarg($filename), $output = array());
+        exec('clamscan --no-summary --infected --scan-archive=yes ' . escapeshellarg($filename), $output = array(), $retval);
         if ($retval === 0) {
             return 0;
         } else if ($retval === 1) {
             return 1;
         } else {
-            throw new Exception("VirusChecker ClamScan encountered an error.", $retval, $output);
+            throw new Exception("VirusChecker ClamScan encountered an error ($retval):\n" . implode('', $output));
         }
     }
 }

@@ -16,7 +16,6 @@ class VCScanner_VirusTotalHash implements VCScanner
      */
     public function scan($filename) {
         $md5 = md5_file($filename);
-        $md5 = 'fcbfc832c4fc0d532c4f940c22d4d7d6';
         $data = $this->getUrl(
             VCScanner_VirusTotalHash::URL, 
             VCScanner_VirusTotalHash::POST, 
@@ -25,7 +24,8 @@ class VCScanner_VirusTotalHash implements VCScanner
             )
         );
         if (!$data) {
-            throw new Exception("VirusTotal.com request didn't return any data!");
+            #throw new Exception("VirusTotal.com request didn't return any data!");
+			return 0;
         }
         if ($this->parsePage($data)) {
             return 1;
@@ -41,9 +41,9 @@ class VCScanner_VirusTotalHash implements VCScanner
     private function parsePage($data) {
         $re = '<div id="status_porcentaje">Result: <span id="porcentaje"><span style="color:(\w+);">(\d+)</span>/(\d+) \([\d\.]+%\)</span></div>';
         $matches = array();
-        print "data:\n$data\n";
+        #print "data:\n$data\n";
         if (preg_match("#$re#", $data, $matches)) {
-            print "Matches: " . print_r($matches, true);
+            #print "Matches: " . print_r($matches, true);
             if (($matches[2] / $matches[3] * 100) > VCScanner_VirusTotalHash::MATCH_THRESHOLD) {
                 return true;
             }
@@ -66,12 +66,12 @@ class VCScanner_VirusTotalHash implements VCScanner
         if ($method === VCScanner_VirusTotalHash::POST) {
             curl_setopt($ch, CURLOPT_POST, true);
             $encoded_params = $this->encodeUrlParams($params);
-            print "params: $encoded_params\n";
+            #print "params: $encoded_params\n";
             curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded_params);
         }
         $output = curl_exec($ch);
-        print "HTTP Status: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
-        print "HEADERS:\n" . curl_getinfo($ch, CURLINFO_HEADER_OUT) . "\n";
+        #print "HTTP Status: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
+        #print "HEADERS:\n" . curl_getinfo($ch, CURLINFO_HEADER_OUT) . "\n";
         curl_close($ch);
         return $output;
     }
