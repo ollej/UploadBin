@@ -1,5 +1,8 @@
 			<div class="centerDiv">
 			<div id="textDiv">
+			<h2>2010-07-19 - Virus checking added</h2>
+			<p>Added virus checking on uploaded files.</p>
+
 			<h2>2010-02-10 - Bug fixes</h2>
 			<p>A few bugs have been squashed recently. Delete works properly
 			again, and delete link has been removed from public listing.
