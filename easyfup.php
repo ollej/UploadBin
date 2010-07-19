@@ -45,6 +45,7 @@ require_once './includes/UploadProgressMeter.class.php';
 require_once './classes/EfupFile.php';
 require_once './classes/EfupAction.php';
 require_once './classes/Message.php';
+require_once './classes/VirusChecker.php';
 
 
 // End of files to include.

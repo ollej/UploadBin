@@ -41,6 +41,12 @@ class EfupFile
 	 * @var string
 	 */
 	private $_tbl_keys;
+	/**
+	 * Configuration object
+	 * @var object
+	 */
+	private $_config;
+
 
 	/**
 	 * Constructor which initializes some values.
@@ -53,6 +59,7 @@ class EfupFile
 	function __construct ($dir)
 	{
 		global $config;
+        $this->_config = $config;
 
 		// Connect to the database.
 		$this->files = array();
@@ -160,6 +167,12 @@ class EfupFile
 				} else {
 					throw new Exception("Unknown file upload error.");
 				}
+			}
+
+			// Make sure this file doesn't contain a virus.
+			$vc = new VirusChecker($file->getProp('tmp', $this->_config);
+			if ($vc->scan() > 0) {
+				throw new Exception("File contains a virus!");
 			}
 
 			// Make sure the real filename has been hashed.
