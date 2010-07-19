@@ -12,11 +12,12 @@
         <hashtype>uuid</hashtype>
 		<cookielifetime>2592000</cookielifetime>
         <akismetkey>14c14821006c</akismetkey>
-	<spamcheck>0</spamcheck>
+	    <spamcheck>0</spamcheck>
         <denyextensions></denyextensions>
         <maxexecutiontime>3600</maxexecutiontime>
         <maxuploadsize>256M</maxuploadsize>
         <maxdescinlist>50</maxdescinlist>
+        <viruscheckers>VirusTotalHash,ClamScan</viruscheckers>
         <database>
             <type>pdo_mysql</type>
             <host>localhost</host>
