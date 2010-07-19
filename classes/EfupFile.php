@@ -170,10 +170,12 @@ class EfupFile
 			}
 
 			// Make sure this file doesn't contain a virus.
-			$vc = new VirusChecker($file->getProp('tmp_name'), $this->_config);
-			if ($vc->scan() > 0) {
-				throw new Exception("File contains a virus!");
-			}
+            if ($this->_config->viruscheckers && strlen($this->_config->viruscheckers) > 0) {
+                $vc = new VirusChecker($file->getProp('tmp_name'), $this->_config);
+                if ($vc->scan() > 0) {
+                    throw new Exception("File contains a virus!");
+                }
+            }
 
 			// Make sure the real filename has been hashed.
 			// This is to make sure the client has run sha256 on the filename and

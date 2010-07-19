@@ -51,6 +51,9 @@ class VirusChecker
         } else {
             $scannerlist = explode(',', $this->config->viruscheckers);
         }
+        if (empty($scannerlist)) {
+            throw new Exception("VirusChecker needs a list of one or more scanner plugins to work.");
+        }
         return $scannerlist;
     }
 
