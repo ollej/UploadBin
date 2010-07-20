@@ -63,15 +63,15 @@ class VirusChecker
         if (!interface_exists('VCSanner')) {
             include_once('classes/VCScanner.php');
         }
-        if (is_readable($path)) {
+        try {
             include_once($path);
             $vc = new $classname();
             $rc = new ReflectionClass($classname);
             if (!$rc->implementsInterface('VCScanner')) {
                 throw new Exception("VirusChecker scanner plugin doesn't implement VCScanner interface: " . $name);
             }
-        } else {
-            throw new Exception("VirusChecker couldn't load scanner: " . $path);
+        } catch (Exception $e) {
+            throw new Exception("VirusChecker couldn't load scanner: " . $path . "\nMessage: " . $e->getMessage());
         }
         return $vc;
     }
