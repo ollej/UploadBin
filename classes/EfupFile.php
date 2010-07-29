@@ -59,11 +59,11 @@ class EfupFile
 	function __construct ($dir)
 	{
 		global $config;
-        $this->_config = $config;
+		$this->_config = $config;
 
 		// Connect to the database.
 		$this->files = array();
-		$this->_db =  Zend_Db::factory($config->database->type, array(
+		$this->_db = Zend_Db::factory($config->database->type, array(
 			'host'     => $config->database->host,
 			'username' => $config->database->username,
 			'password' => $config->database->password,
@@ -116,7 +116,7 @@ class EfupFile
 	 */
 	function Upload($hashed_name, $hashed_key, $file_password, $firstdownloaderase, $descr, $email, $public)
 	{
-		global $config;
+		global $config, $logger;
 
 		// Delete all old keys.
 		$where_del = "added < DATE_SUB(CURDATE(), INTERVAL 1 HOUR)";
@@ -154,7 +154,8 @@ class EfupFile
 			$file->setValidExtensions($this->denyextensions, "deny");
 
 			// Check if there is an error.
-			if ($file->isError()) {
+			if ($file->isError())
+			{
 				throw new Exception($file->errorMsg());
 			}
 
@@ -170,12 +171,14 @@ class EfupFile
 			}
 
 			// Make sure this file doesn't contain a virus.
-            if ($this->_config->viruscheckers && strlen($this->_config->viruscheckers) > 0) {
-                $vc = new VirusChecker($file->getProp('tmp_name'), $this->_config);
-                if ($vc->scan() > 0) {
-                    throw new Exception("File contains a virus!");
-                }
-            }
+			if ($this->_config->viruscheckers && strlen($this->_config->viruscheckers) > 0)
+			{
+				$vc = new VirusChecker($file->getProp('tmp_name'), $this->_config);
+				if ($vc->scan() > 0)
+				{
+					throw new Exception("File contains a virus!");
+				}
+			}
 
 			// Make sure the real filename has been hashed.
 			// This is to make sure the client has run sha256 on the filename and
@@ -183,9 +186,12 @@ class EfupFile
 			// Only needed if user isn't logged in.
 			if (!$this->isLoggedIn())
 			{
-				if ($this->getHash('sha256', '', $file->getProp('real')) != $hashed_name)
+				$realname = $file->getProp('real');
+				$hashed_realname = $this->getHash('sha256', '', $realname);
+				#$logger->info("Hashed filename: " . $hashed_realname);
+				if ($hashed_realname != $hashed_name)
 				{
-					throw new Exception("Hashed filenames doesn't match: real: ".$file->getProp('real').", sha256: ".hash('sha256', $file->getProp('real')).", hashed_name: $hashed_name");
+					throw new Exception("Hashed filenames doesn't match. Real filename: $realname, sha256: $hashed_realname, hashed_name: $hashed_name");
 				}
 			}
 
@@ -202,17 +208,18 @@ class EfupFile
 			// Setup file information
 			$downloadfilename = $filename . '/' . urlencode($file->getProp('real'));
 			$fileinfo = array(
-					  'downloadurl' => $config->siteurl . $downloadfilename,
-					  'deleteurl' => $config->siteurl . $deletehash,
-					  'downloadurl_enc' => urlencode($config->siteurl . $downloadfilename),
-					  'filename_enc' => urlencode($file->getProp('real')),
-					  'filename' => $filename,
-					  'description' => $descr
-					  );
+				'downloadurl' => $config->siteurl . $downloadfilename,
+				'deleteurl' => $config->siteurl . 'deletehash/' . $deletehash,
+				'downloadurl_enc' => urlencode($config->siteurl . $downloadfilename),
+				'filename_enc' => urlencode($file->getProp('real')),
+				'filename' => $filename,
+				'description' => $descr
+			);
 
 			// Check if an info email should be sent about the file.
-			if (!empty($email)) {
-			  $this->sendEmail($email, $fileinfo);
+			if (!empty($email))
+			{
+				$this->sendEmail($email, $fileinfo);
 			}
 
 			return $fileinfo;
@@ -220,21 +227,22 @@ class EfupFile
 		}
 	}
 
-		function sendEmail($email, $fileinfo)
+	function sendEmail($email, $fileinfo)
+	{
+		global $config, $logger;
+		$body = "You have been sent a file via Uploadbin.net:\n\nYou can download it from this address:\n" . $fileinfo['downloadurl'];
+		if ($fileinfo['description'])
 		{
-		  global $config, $logger;
-		  $body = "You have been sent a file via Uploadbin.net:\n\nYou can download it from this address:\n" . $fileinfo['downloadurl'];
-		  if ($fileinfo['description']) {
-		  	$body .="\n\nFile description:\n" . $fileinfo['description'];
-		  }
-		  $logger->info('Sending email to: ' . $email . ' body: ' . $body);
-		  $mail = new Zend_Mail();
-		  $mail->setBodyText($body);
-		  $mail->setFrom($config->admin->email, $config->admin->name);
-		  $mail->addTo($email);
-		  $mail->setSubject('Uploadbin.net - Uploaded file: ' . $fileinfo['filename']);
-		  $mail->send();
+			$body .="\n\nFile description:\n" . $fileinfo['description'];
 		}
+		$logger->info('Sending email to: ' . $email . ' body: ' . $body);
+		$mail = new Zend_Mail();
+		$mail->setBodyText($body);
+		$mail->setFrom($config->admin->email, $config->admin->name);
+		$mail->addTo($email);
+		$mail->setSubject('Uploadbin.net - Uploaded file: ' . $fileinfo['filename']);
+		$mail->send();
+	}
 
 	/**
 	* Downloads a file with the supplied file name.
@@ -253,8 +261,9 @@ class EfupFile
 
 		// Load the file.
 		$err = $this->_LoadFile($hash, false);
-		if (!is_string($err) && $err->code == Message::$ERROR) {
-		  return $err;
+		if (!is_string($err) && $err->code == Message::$ERROR)
+		{
+			return $err;
 		}
 		$file = $this->getFile($hash);
 
@@ -268,7 +277,9 @@ class EfupFile
 		$checkPassword = $this->checkPassword($hash, $password);
 
 		if ($checkPassword->code != Message::$OK )
+		{
 			return $checkPassword;
+		}
 
 
 		// Set execution time and max upload size.
@@ -278,7 +289,8 @@ class EfupFile
 		$dl = new HTTP_Download();
 		$dl->setFile($this->dir . $hash);
 		$filename = ($downloadfilename != '') ? $downloadfilename : $file->filename;
-		if (dirname($file->mime_type) == 'image') {
+		if (dirname($file->mime_type) == 'image')
+		{
 			$disposition = HTTP_DOWNLOAD_INLINE;
 		} else {
 			$disposition = HTTP_DOWNLOAD_ATTACHMENT;
@@ -328,8 +340,9 @@ class EfupFile
 
 		// Load the file information.
 		$filename = $this->_LoadFile($hash, $hashtype);
-		if (!is_string($filename) && $filename->code == Message::$ERROR) {
-		  return $filename;
+		if (!is_string($filename) && $filename->code == Message::$ERROR)
+		{
+			return $filename;
 		}
 		if (!$filename)
 		{
@@ -456,20 +469,21 @@ class EfupFile
 			$hashfield = 'hashname';
 		}
 
-			if (!isset($this->files[$hash]))
+		if (!isset($this->files[$hash]))
+		{
+			$select = $this->_db->select()
+				->from(array('f' => $this->_tbl_files))
+				->where("$hashfield = ?", $hash);
+			$stmt = $this->_db->query($select);
+			$file = $stmt->fetchObject();
+			if (!empty($file))
 			{
-				$select = $this->_db->select()
-					->from(array('f' => $this->_tbl_files))
-					->where("$hashfield = ?", $hash);
-				$stmt = $this->_db->query($select);
-				$file = $stmt->fetchObject();
-				if (!empty($file)) {
-				  $this->files[$file->hashname] = $file;
-				} else {
-				  return new Message(Message::$ERROR, "File not found: $hash");
-				  #throw new Exception("File not found: $hash");
-				}
+				$this->files[$file->hashname] = $file;
+			} else {
+				return new Message(Message::$ERROR, "File not found: $hash");
+				#throw new Exception("File not found: $hash");
 			}
+		}
 
 		return $file->hashname;
 	}
@@ -579,7 +593,7 @@ class EfupFile
 	 */
 	function getFile($hash)
 	{
-	        if (!empty($this->files) && isset($this->files[$hash]))
+		if (!empty($this->files) && isset($this->files[$hash]))
 		{
 			return $this->files[$hash];
 		} else {
@@ -623,7 +637,7 @@ class EfupFile
 		$message = new Message();
 
 		// Return true if either password is not set or password is correct
-		if (isset( $this->files[$hash]->password ) && $this->files[$hash]->password!="" &&  $password=="")
+		if (isset($this->files[$hash]->password) && $this->files[$hash]->password != "" && $password == "")
 		{
 			$message->code = Message::$PASSWORD_REQUIRED;
 			$message->message = "Please enter password";
@@ -650,15 +664,15 @@ class EfupFile
 		$select->from(array('f' => $this->_tbl_files));
 		if (!$public && isset($_COOKIE[$config->sitename]))
 		{
-		  foreach ($_COOKIE[$config->sitename] as $name => $value)
-		    {
-		      $select->orWhere('hashname = ? AND public = 0', $value);
-		    }
+			foreach ($_COOKIE[$config->sitename] as $name => $value)
+			{
+				$select->orWhere('hashname = ? AND public = 0', $value);
+			}
 		} else if ($public) {
-		  $select->orWhere('public = ?', $public);
+			$select->orWhere('public = ?', $public);
 		} else {
-		  $select->reset();
-		  return array();
+			$select->reset();
+			return array();
 		}
 		$stmt = $this->_db->query($select);
 
@@ -753,8 +767,7 @@ class EfupFile
 	function Authenticate($username, $password)
 	{
 		// Set the input credential values (e.g., from a login form)
-		$this->_auth->setIdentity($username)
-        			->setCredential($password);
+		$this->_auth->setIdentity($username)->setCredential($password);
 
 		// Perform the authentication query, saving the result
 		$auth = Zend_Auth::getInstance();
@@ -762,8 +775,8 @@ class EfupFile
 
 		if ($result->isValid())
 		{
-		  // Save the uesr identity.
-		  $this->SetAuthUser();
+			// Save the uesr identity.
+			$this->SetAuthUser();
 
 			return true;
 		} else {
@@ -780,7 +793,7 @@ class EfupFile
 		$auth = Zend_Auth::getInstance();
 		if ($auth->hasIdentity())
 		{
-    		// Identity exists; get it
+			// Identity exists; get it
 			$this->identity = $auth->getIdentity();
 		} else {
 			unset($this->identity);
@@ -836,11 +849,12 @@ class EfupFile
 
 	/**
 	 * Check if a valid form key exists.
+	 * @param String $hashed_key Key to check for in the database.
 	 * @return boolean True if a valid form key existed.
 	 */
 	function CheckFormKey($hashed_key)
 	{
-	  if (!$hashed_key) return false;
+		if (!$hashed_key) return false;
 
 		$select = $this->_db->select()
 			->from(array('k' => $this->_tbl_keys))

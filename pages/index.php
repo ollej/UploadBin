@@ -6,7 +6,9 @@
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<base href="<?php echo $config->siteurl; ?>">
 		<meta name="description" content="A free online service to upload and share any file quick and easy. Each uploaded file receives a unique URL which is used to download it by anyone who knows it. Unlimited online web based hard drive solution." />
-		<script language="Javascript" type="text/javascript" src="includes/sha256.js"></script>
+		<script language="Javascript" type="text/javascript" src="includes/sha256-wbt.js"></script>
+		<script language="Javascript" type="text/javascript" src="includes/n11ndata.js"></script>
+		<script language="Javascript" type="text/javascript" src="includes/nfc.js"></script>
 		<script language="Javascript" type="text/javascript" src="includes/prototype.js"></script>
 		<script language="Javascript" type="text/javascript" src="includes/scriptaculous/scriptaculous.js?load=effects"></script>
 		<script language="Javascript" type="text/javascript" src="includes/easyfupfuncs.js"></script>
@@ -98,7 +100,7 @@
 		<?php } ?>
 		</div> <!-- Content Div -->
 		<div id='debug'></div>
-		<p />
+
 		<div id="footerDiv">
 			<div id="copyrightDiv">&copy; Copyright 2009-2010 Johansson Corp.</div>
 		</div> <!-- Footer Div -->

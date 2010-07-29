@@ -45,7 +45,7 @@ class UploadProgressMeter {
 
 	var $formIframe = "<iframe id='[frame_name]' name='[frame_name]' src='' style='width:1px;height:1px;border:0'></iframe>";
 
-	var $progressBarDiv = '<div id="[id]" style="display: none" class="progressBar"><div class="background"><div class="bar">&nbsp;</div></div><div class="message"></div></div></div><script type="text/javascript">UploadProgressMeter_Register(\'[id]\',\'[upload_id]\')</script>';
+	var $progressBarDiv = '<div id="[id]" style="display: none" class="progressBar"><div class="background"><div class="bar">&nbsp;</div></div><div class="message"></div></div><script type="text/javascript">UploadProgressMeter_Register(\'[id]\',\'[upload_id]\')</script>';
 
 	var $includeJs = '<script src="includes/UploadProgressMeter.js" type="text/javascript"></script>';
 
