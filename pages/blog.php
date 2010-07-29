@@ -3,7 +3,7 @@
 			<h2>2010-07-29 - Bug fix: Uploading files with "strange" characters</h2>
 			<p>For a long time it's been impossible to upload files with "strange"
 			characters. This should be fixed now, though we've only done some minor
-			testing. Please feel free to upload files with "&aring;" or "&auml;" etc in the filename.</p>
+			testing. Please feel free to upload files with "å" or "ä" etc in the filename.</p>
 
 			<h2>2010-07-19 - Virus checking added</h2>
 			<p>Added virus checking on uploaded files.</p>
