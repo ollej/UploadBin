@@ -1,29 +1,3 @@
-// Normalize a UTF-8 string
-var utf8n = Object();
-utf8n['A%u0308'] = '%C4';
-utf8n['a%u0308'] = '%E4';
-utf8n['A%u030A'] = '%C5';
-utf8n['a%u030A'] = '%E5';
-utf8n['O%u0308'] = '%D6';
-utf8n['o%u0308'] = '%F6';
-// Obsolete, use nfc() instead.
-function normalizeUtf8(str) {
-    return nfc(str);
-    var norm = escape(str);
-    for (var i in utf8n) {
-        if (utf8n.hasOwnProperty(i)) {
-            norm = norm.replace(i, utf8n[i]);
-        }
-    }
-    //norm = norm.replace('A%u0308','%C4');
-    //norm = norm.replace('a%u0308','%E4');
-    //norm = norm.replace('A%u030A','%C5');
-    //norm = norm.replace('a%u030A','%E5');
-    //norm = norm.replace('O%u0308','%D6');
-    //norm = norm.replace('o%u0308','%F6');
-    return unescape(norm);
-}
-
 // Returns the basename part of path
 function Basename(path)
 {
