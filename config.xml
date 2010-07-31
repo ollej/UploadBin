@@ -17,7 +17,7 @@
         <maxexecutiontime>3600</maxexecutiontime>
         <maxuploadsize>256M</maxuploadsize>
         <maxdescinlist>50</maxdescinlist>
-        <viruscheckers>VirusTotalHash,ClamScan</viruscheckers>
+        <viruscheckers>VirusTotalHash,ClamScan,ComodoHash</viruscheckers>
         <database>
             <type>pdo_mysql</type>
             <host>localhost</host>
