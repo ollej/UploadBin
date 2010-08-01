@@ -27,7 +27,7 @@ class VCScanner_FProtScan implements VCScanner
         $lastline = exec('fpscan -v 0 ' . escapeshellarg($filename), $output, $retval);
         $output = implode('', $output);
 	#print "retval: $retval\nlastline: $lastline\noutput: $output\n";
-        if ($retval === 0 || empty($lastline) || strpos($lastline, '[Found') === false) {
+        if (($retval !== 1 && $retval !== 2 && $retval !== 3) || empty($lastline) || strpos($lastline, '[Found') === false) {
             return 0;
         } else {
             return 1;
