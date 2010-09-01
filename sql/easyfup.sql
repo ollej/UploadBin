@@ -16,7 +16,7 @@ CREATE TABLE `files` (
   `id` int(11) NOT NULL auto_increment,
   `filename` varchar(255) NOT NULL,
   `hashname` varchar(255) NOT NULL,
-  `extension` varchar(255) NOT NULL,
+  `extension` varchar(255) default '',
   `mime_type` varchar(32) NOT NULL,
   `changed` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `uploaded` datetime NOT NULL default '0000-00-00 00:00:00',
