@@ -11,7 +11,7 @@
         <uploaddir>/home/olle/uploadbin_uploads/</uploaddir>
         <hashtype>uuid</hashtype>
 		<cookielifetime>2592000</cookielifetime>
-        <akismetkey>14c14821006c</akismetkey>
+        <akismetkey></akismetkey>
 	    <spamcheck>0</spamcheck>
         <denyextensions></denyextensions>
         <maxexecutiontime>3600</maxexecutiontime>
@@ -21,9 +21,9 @@
         <database>
             <type>pdo_mysql</type>
             <host>localhost</host>
-            <username>uploadbin</username>
-            <password>linasAus9</password>
-            <name>uploadbin</name>
+            <username></username>
+            <password></password>
+            <name></name>
             <prefix></prefix>
             <table>
             	<files>files</files>
@@ -37,9 +37,9 @@
 	<debug>1</debug>
         <database>
             <host>localhost</host>
-            <username>root</username>
-            <password>root</password>
-            <name>easyfup</name>
+            <username></username>
+            <password></password>
+            <name></name>
         </database>
     </staging>
 </configdata>
