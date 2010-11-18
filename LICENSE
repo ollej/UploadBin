@@ -1,12 +1,3 @@
-<?php
-/**
- * UploadBin - Site for sending files.
- *
- * @package uploadbin
- * @author Olle@Johansson.com and Mattias Johansson
- */
-
-/*
 The MIT License
 
 Copyright (c) 2010 Olle Johansson
@@ -28,26 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
-
-/**
- * VirusChecker scanner plugin to check for viruses using F-Prot scanner..
- * @author Olle@Johansson.com
- */
-class VCScanner_FProtScan implements VCScanner
-{
-    /**
-     * Runs clamscan on the given file.
-     */
-    public function scan($filename) {
-        $output = array();
-        $lastline = exec('fpscan -v 0 ' . escapeshellarg($filename), $output, $retval);
-        $output = implode('', $output);
-	#print "retval: $retval\nlastline: $lastline\noutput: $output\n";
-        if (($retval !== 1 && $retval !== 2 && $retval !== 3) || empty($lastline) || strpos($lastline, '[Found') === false) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
-}
