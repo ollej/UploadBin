@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <configdata>
     <production>
-        <siteurl>http://uploadbin.net/</siteurl>
-        <sitename>UploadBin</sitename>
+        <siteurl>http://example.com/</siteurl>
+        <sitename>Your Site Name</sitename>
 	<admin>
-	  <email>info@uploadbin.net</email>
-	  <name>Uploadbin.net</name>
+	  <email>info@example.com</email>
+	  <name>Your Name</name>
 	</admin>
 	<debug>0</debug>
-        <uploaddir>/home/olle/uploadbin_uploads/</uploaddir>
+        <uploaddir>uploads/</uploaddir>
         <hashtype>uuid</hashtype>
 		<cookielifetime>2592000</cookielifetime>
         <akismetkey></akismetkey>
@@ -17,7 +17,7 @@
         <maxexecutiontime>3600</maxexecutiontime>
         <maxuploadsize>256M</maxuploadsize>
         <maxdescinlist>50</maxdescinlist>
-        <viruscheckers>VirusTotalHash,ClamScan,ComodoHash</viruscheckers>
+        <viruscheckers>VirusTotalHash,ComodoHash</viruscheckers>
         <database>
             <type>pdo_mysql</type>
             <host>localhost</host>
@@ -32,7 +32,7 @@
         </database>
     </production>
     <staging extends="production">
-        <siteurl>http://localhost/easyfup/</siteurl>
+        <siteurl>http://localhost/uploadbin/</siteurl>
         <uploaddir>./uploads/</uploaddir>
 	<debug>1</debug>
         <database>
